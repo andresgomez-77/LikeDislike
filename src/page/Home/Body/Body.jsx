@@ -3,7 +3,7 @@ import { Box, Typography } from "@mui/material";
 import useFecthPersonajes from "../../../hooks/obtenerPersonajes";
 import { useDynamicStlyes } from "../../../components/Styles";
 import Cards from "../../../components/Cards";
-
+import { Title_1_Bold, Title_h3_Bold} from "../../../assets/Variable/TextVariable";
 function BodyPrimary() {
   const styles = useDynamicStlyes();
   const { personajes, loading, error, setPersonajes } = useFecthPersonajes();
@@ -45,25 +45,30 @@ function BodyPrimary() {
       personajeAleatorios();
     }
   }, [personajes]);
-  if (loading) return <Typography variant="h3">Cargando ...</Typography>;
+  if (loading) return <Typography variant="h3" sx={Title_h3_Bold}>Cargando ...</Typography>;
   if (error)
     return (
-      <Typography variant="h3" color="error">
+      <Typography variant="h3"sx={Title_h3_Bold} color="error">
         {error}
       </Typography>
     );
   return (
-    <Box sx={styles.bodyPrimary}>
-      {personajeActual ? (
-        <Cards
-          personaje={personajeActual}
-          actualizarContador={actualizarContador}
-        />
-      ) : (
-        <Typography variant="h3">
-          No existen personajes para mostrar.
+    <Box sx={styles.mainBox}>
+      <Box sx={styles.secondBox}>
+        <Typography variant="h1" sx={{...Title_1_Bold, ...styles.titlePrimary}}>
+          Vota por tu personaje favorito:
         </Typography>
-      )}
+        {personajeActual ? (
+          <Cards
+            personaje={personajeActual}
+            actualizarContador={actualizarContador}
+          />
+        ) : (
+          <Typography variant="h3" sx={Title_h3_Bold}>
+            No existen personajes para mostrar.
+          </Typography>
+        )}
+      </Box>
     </Box>
   );
 }
