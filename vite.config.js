@@ -5,6 +5,9 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   plugins: [react()],
   base: '/LikeDislike/',
+  resolve: {
+    extensions: ['.js', '.jsx'], // Asegúrate de que .jsx sea reconocido
+  },
   server: {
     proxy: {
       "/api": {
