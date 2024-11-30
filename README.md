@@ -71,4 +71,4 @@ La idea principal es poder votar por tu personaje favorito dando un like o un di
 - React Router: Para manejar la navegación entre diferentes páginas en la aplicación.
 
 # ¡¡Muchas Gracias!!
-##Desarrollado por Andrés Gómez © 2024 Todos los derechos reservados.
+### Desarrollado por Andrés Gómez © 2024 Todos los derechos reservados.
