@@ -1,3 +1,17 @@
+/**
+ * ============================================
+ * MENÚ LATERAL / BOTÓN FLOTANTE
+ * ============================================
+ *
+ * Componente que maneja el menú de opciones de la aplicación.
+ * - En ESCRITORIO: Botón lateral fijo
+ * - En MÓVIL: Botón flotante compacto que despliega opciones
+ *
+ * Características:
+ * - Diseño responsivo adaptado a cada dispositivo
+ * - Estilo retro/cyberpunk consistente
+ * - Menú desplegable en móvil para ahorrar espacio
+ */
 import { useState } from "react";
 import {
   Drawer,
@@ -8,6 +22,8 @@ import {
   ListItemButton,
   ListItemText,
   Typography,
+  useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import {
   Menu,
@@ -21,18 +37,37 @@ import ModalEstadisticos from "./ModalEstadisticos";
 import { statsApi } from "../services/obtenerPersonaje";
 
 const MenuLateral = () => {
+  // ============================================
+  // HOOKS Y DETECCIÓN DE DISPOSITIVO
+  // ============================================
+
+  const theme = useTheme();
+  // Detecta si la pantalla es menor a 900px (móvil/tablet)
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  // Estado del drawer (menú lateral)
   const [open, setOpen] = useState(false);
+  // Estado del modal de estadísticas
   const [modalOpen, setModalOpen] = useState(false);
+  // Configuración del modal actual
   const [modalConfig, setModalConfig] = useState<{
     title: string;
     fetchData: any;
     type: "character" | "pikachu";
   } | null>(null);
+  // ============================================
+  // FUNCIONES
+  // ============================================
 
+  /**
+   * Abre el modal de estadísticas con la configuración específica
+   * @param title - Título del modal
+   * @param fetchData - Función para obtener los datos
+   * @param type - Tipo de datos ("character" o "pikachu")
+   */
   const handleOpenModal = (
     title: string,
     fetchData: any,
-    type: "character" | "pikachu" = "character"
+    type: "character" | "pikachu" = "character",
   ) => {
     setModalConfig({ title, fetchData, type });
     setModalOpen(true);
@@ -65,7 +100,7 @@ const MenuLateral = () => {
         handleOpenModal(
           "ESTADO DE PIKACHU",
           statsApi.getPikachuStatus,
-          "pikachu"
+          "pikachu",
         ),
     },
   ];
@@ -79,8 +114,10 @@ const MenuLateral = () => {
         transition={{ delay: 0.5 }}
         style={{
           position: "fixed",
-          top: 20,
-          left: 20,
+          // En móvil: más pequeño y pegado al borde
+          top: isMobile ? "auto" : 20,
+          bottom: isMobile ? 20 : "auto",
+          left: isMobile ? 16 : 20,
           zIndex: 1000,
         }}
       >
@@ -99,15 +136,19 @@ const MenuLateral = () => {
               transform: "translate(2px, 2px)",
               boxShadow: "2px 2px 0 #000",
             },
-            width: 60,
-            height: 60,
+            // Tamaño adaptado: 48px en móvil, 60px en escritorio
+            width: isMobile ? 48 : 60,
+            height: isMobile ? 48 : 60,
+            transition: "all 0.2s ease",
           }}
         >
           <Menu sx={{ fontSize: 30, color: "#000" }} />
         </IconButton>
       </motion.div>
 
-      {/* Drawer del menú */}
+      {/* ============================================
+          DRAWER - Menú lateral deslizable
+          ============================================ */}
       <Drawer
         anchor="left"
         open={open}
@@ -115,19 +156,30 @@ const MenuLateral = () => {
         PaperProps={{
           sx: {
             backgroundColor: "#0A0E27",
-            width: 300,
-            border: "4px solid #16DBCC",
+            // Ancho adaptado: 280px en móvil, 300px en escritorio
+            width: isMobile ? 280 : 300,
+            // Bordes más finos en móvil
+            border: isMobile ? "3px solid #16DBCC" : "4px solid #16DBCC",
             borderLeft: "none",
             boxShadow: "0 0 20px #16DBCC",
+            backgroundImage: `
+              repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(22, 219, 204, 0.03) 2px,
+                rgba(22, 219, 204, 0.03) 4px
+              )
+            `,
           },
         }}
       >
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ p: isMobile ? 2 : 3 }}>
           <Typography
             variant="h6"
             sx={{
               fontFamily: '"Press Start 2P", monospace',
-              fontSize: "0.9rem",
+              fontSize: isMobile ? "0.75rem" : "0.9rem",
               color: "#FFB800",
               textShadow: "0 0 10px #FFB800",
               mb: 3,
@@ -145,7 +197,7 @@ const MenuLateral = () => {
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ delay: index * 0.1 }}
               >
-                <ListItem disablePadding sx={{ mb: 2 }}>
+                <ListItem disablePadding sx={{ mb: isMobile ? 1.5 : 2 }}>
                   <ListItemButton
                     onClick={item.onClick}
                     sx={{
@@ -162,17 +214,29 @@ const MenuLateral = () => {
                         transform: "translate(1px, 1px)",
                         boxShadow: "2px 2px 0 #000",
                       },
-                      py: 2,
+                      py: isMobile ? 1.5 : 2,
+                      transition: "all 0.2s ease",
                     }}
                   >
-                    <Box sx={{ mr: 2 }}>{item.icon}</Box>
+                    {/* Icono */}
+                    <Box
+                      sx={{
+                        mr: isMobile ? 1.5 : 2,
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      {item.icon}
+                    </Box>
+                    {/* Texto */}
                     <ListItemText
                       primary={item.title}
                       primaryTypographyProps={{
                         sx: {
                           fontFamily: '"Press Start 2P", monospace',
-                          fontSize: "0.6rem",
+                          fontSize: isMobile ? "0.55rem" : "0.6rem",
                           color: "#fff",
+                          lineHeight: 1.3,
                         },
                       }}
                     />
@@ -185,8 +249,8 @@ const MenuLateral = () => {
           {/* Información adicional */}
           <Box
             sx={{
-              mt: 4,
-              p: 2,
+              mt: isMobile ? 3 : 4,
+              p: isMobile ? 1.5 : 2,
               backgroundColor: "#1B2A4E",
               border: "2px solid #16DBCC",
               borderRadius: 1,
@@ -196,13 +260,15 @@ const MenuLateral = () => {
               variant="body2"
               sx={{
                 fontFamily: '"Press Start 2P", monospace',
-                fontSize: "0.5rem",
+                fontSize: isMobile ? "0.45rem" : "0.5rem",
                 color: "#16DBCC",
                 textAlign: "center",
-                lineHeight: 1.6,
+                lineHeight: isMobile ? 1.4 : 1.6,
               }}
             >
-              Click en cualquier opción para ver las estadísticas
+              {isMobile
+                ? "Toca para ver stats"
+                : "Click en cualquier opción para ver las estadísticas"}{" "}
             </Typography>
           </Box>
         </Box>
