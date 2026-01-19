@@ -5,29 +5,10 @@
 ![Vite](https://img.shields.io/badge/Vite-5.0-646CFF?style=for-the-badge&logo=vite)
 ![Material-UI](https://img.shields.io/badge/MUI-5.0-007FFF?style=for-the-badge&logo=mui)
 
+
 Interfaz de usuario estilo **arcade retro** para sistema de votación de personajes. Vote por sus personajes favoritos de Rick & Morty, Pokémon y Superhéroes mientras la IA aprende sus preferencias.
 
 > **Demo en vivo**: [https://andresgomez-77.github.io/LikeDislike/](https://andresgomez-77.github.io/LikeDislike/)
-
----
-
-## 📋 Tabla de Contenidos
-
-- [Características](#-características)
-- [Stack Tecnológico](#-stack-tecnológico)
-- [Requisitos Previos](#-requisitos-previos)
-- [Instalación](#-instalación)
-- [Configuración](#-configuración)
-- [Ejecución](#-ejecución)
-- [Estructura del Proyecto](#-estructura-del-proyecto)
-- [Componentes Principales](#-componentes-principales)
-- [Sistema de Preferencias (IA)](#-sistema-de-preferencias-ia)
-- [Diseño y Estilo](#-diseño-y-estilo)
-- [Responsive Design](#-responsive-design)
-- [APIs Consumidas](#-apis-consumidas)
-- [Troubleshooting](#-troubleshooting)
-- [Contribución](#-contribución)
-- [Licencia](#-licencia)
 
 ---
 
