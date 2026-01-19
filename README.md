@@ -10,6 +10,8 @@ Interfaz de usuario estilo **arcade retro** para sistema de votación de persona
 
 > **Demo en vivo**: [https://andresgomez-77.github.io/LikeDislike/](https://andresgomez-77.github.io/LikeDislike/)
 
+## Back - End: https://github.com/andresgomez-77/likedislike-backend
+
 ---
 
 ## Características
